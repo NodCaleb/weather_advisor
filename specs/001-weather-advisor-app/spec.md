@@ -5,6 +5,16 @@
 **Status**: Draft  
 **Input**: User description: "Weather Advisor web application that helps users decide whether planned outdoor activities are suitable based on current weather conditions"
 
+## Clarifications
+
+### Session 2026-03-12
+
+- Q: What is the technology stack for the web application? → A: React (TypeScript) SPA frontend + .NET backend
+- Q: Which external weather API should be used? → A: Open-Meteo (free, no API key required)
+- Q: Which units of measurement should be used? → A: Metric only (°C, km/h, mm)
+- Q: Should activity suitability thresholds be defined in the spec? → A: Yes, define thresholds now
+- Q: What is the weather API response timeout value? → A: 5 seconds
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Retrieve City Weather (Priority: P1)
@@ -116,7 +126,7 @@ A user receives clear, actionable feedback when their input is invalid or when t
 - **FR-009**: When the external weather service is unavailable, system MUST return a graceful error message ("Weather data is currently unavailable.") and MUST NOT crash or expose internal error details.
 - **FR-010**: When weather conditions meet extreme severity thresholds (storm, extreme wind), system MUST always return "Not Recommended" regardless of the selected activity.
 - **FR-011**: When the weather API response is missing required fields, system MUST return a recommendation of "Unknown" as a safe fallback rather than producing an incorrect result.
-- **FR-012**: When the external weather API exceeds the defined response timeout, system MUST return a timeout error and inform the user to retry.
+- **FR-012**: When the external weather API exceeds the response timeout of **5 seconds**, system MUST return a timeout error and inform the user to retry.
 - **FR-013**: System MUST reject requests for activities not in the supported activity list and display a validation message.
 - **FR-014**: System MUST NOT require user authentication or account creation.
 - **FR-015**: System MUST NOT store any user input, weather data, or recommendation history.
@@ -134,6 +144,24 @@ Each activity is evaluated against the following weather constraints:
 
 > **Assumption**: Specific numeric thresholds (e.g., what constitutes "heavy rain" or "strong wind") are implementation-defined but must be documented in the technical design. The suitability model uses a three-tier output: Suitable (conditions are favorable), Caution (one marginal condition present), Not Recommended (one or more blocking conditions present).
 
+### Activity Suitability Thresholds
+
+The following numeric thresholds define how weather values map to severity tiers. All values are in metric units.
+
+| Condition | Suitable | Caution | Blocking (Not Recommended) |
+|-----------|----------|---------|----------------------------|
+| Wind speed | ≤ 20 km/h | 21–40 km/h | > 40 km/h |
+| Precipitation probability | ≤ 30% | 31–60% | > 60% |
+| Temperature (Picnic only) | ≥ 10°C | — | < 10°C |
+| Extreme severity | — | — | WMO weather code 95–99 (thunderstorm/storm) OR wind speed > 60 km/h |
+
+**Threshold application per activity:**
+- **Running**: Caution if precipitation probability 31–60% or wind 21–40 km/h; Not Recommended if precipitation > 60% or wind > 40 km/h.
+- **Cycling**: Caution if wind 21–40 km/h; Not Recommended if wind > 40 km/h.
+- **Picnic**: Caution if precipitation probability 31–60%; Not Recommended if precipitation > 60% or temperature < 10°C.
+- **Walking**: Caution if wind 21–40 km/h; Not Recommended only under extreme severity (WMO 95–99 or wind > 60 km/h).
+- **All activities**: Extreme severity always overrides to Not Recommended regardless of other factors.
+
 ### Key Entities
 
 - **City**: A geographic location identified by a user-provided name. Serves as the input to weather data retrieval.
@@ -145,7 +173,7 @@ Each activity is evaluated against the following weather constraints:
 
 ### Measurable Outcomes
 
-- **SC-001**: Users can retrieve weather data for any valid city within 3 seconds under normal conditions.
+- **SC-001**: Users can retrieve weather data for any valid city within 3 seconds under normal conditions. The backend enforces a 5-second hard timeout on all Open-Meteo API requests.
 - **SC-002**: Users receive an activity recommendation and explanation within 1 second of selecting an activity after weather data is loaded.
 - **SC-003**: Switching between activities updates the recommendation immediately with no perceptible delay and no page reload.
 - **SC-004**: 100% of extreme weather conditions (storm, extreme wind) result in a "Not Recommended" verdict regardless of activity.
@@ -156,10 +184,12 @@ Each activity is evaluated against the following weather constraints:
 ## Assumptions
 
 - The application is intended for demonstration and educational purposes only; production-grade scalability and security hardening are out of scope.
+- The frontend is a React (TypeScript) single-page application (SPA); the backend is a .NET API.
+- Weather data is sourced from the Open-Meteo API (https://open-meteo.com/), which is free and requires no API key. The .NET backend proxies requests to Open-Meteo and resolves city names to coordinates via the Open-Meteo Geocoding API.
 - No authentication, database storage, or historical weather tracking is required.
 - The supported activity list (Running, Cycling, Picnic, Walking) is fixed for this version; extensibility to add new activities is not required.
-- Specific numeric thresholds for weather condition severity (e.g., wind speed in km/h that qualifies as "strong") are determined during technical design and do not affect the behavioral specification.
+- Numeric thresholds for weather condition severity are defined in the Activity Suitability Thresholds section above and apply to all recommendation logic.
 - Weather data is always retrieved for the current moment (no forecast or historical queries).
 - The application evaluates only one city and one activity at a time per interaction.
-- Unit of measurement defaults (Celsius/metric) are determined during implementation; unit conversion is an optional enhancement not required for the core specification.
+- All weather values are displayed in metric units: temperature in °C, wind speed in km/h, and precipitation in mm. Unit conversion and imperial display are out of scope.
 - Optional enhancements (activity suitability score, weather icons, unit conversion, AI-generated suggestions) are explicitly out of scope for this specification.
