@@ -119,7 +119,7 @@ A user receives clear, actionable feedback when their input is invalid or when t
 - **FR-002**: System MUST display the following weather attributes for the retrieved city: temperature, wind speed, precipitation probability, and weather condition label (e.g., clear, cloudy, rainy).
 - **FR-003**: System MUST provide a selection of supported outdoor activities: Running, Cycling, Picnic, and Walking.
 - **FR-004**: System MUST evaluate retrieved weather conditions against activity-specific suitability rules and return a recommendation.
-- **FR-005**: Recommendations MUST be one of three values: Suitable, Caution, or Not Recommended.
+- **FR-005**: Recommendations MUST be one of four values: Suitable, Caution, Not Recommended, or Unknown. The Unknown value is a safe fallback used exclusively when required weather fields are missing (see FR-011).
 - **FR-006**: Every recommendation MUST include a human-readable explanation that references the specific weather factors influencing the decision.
 - **FR-007**: System MUST update the recommendation immediately when the user changes the selected activity, without requiring a page reload or re-fetching weather data.
 - **FR-008**: When the entered city is not found, system MUST return a clear error message ("City not found") and MUST NOT display partial weather or recommendation data.

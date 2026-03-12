@@ -65,9 +65,10 @@ backend/
 │   ├── Models/
 │   │   ├── Requests/
 │   │   │   └── GetWeatherRequest.cs
-│   │   └── Responses/
-│   │       ├── WeatherResponse.cs
-│   │       └── RecommendationResponse.cs
+│   │   ├── Responses/
+│   │   │   ├── WeatherResponse.cs
+│   │   │   └── RecommendationResponse.cs
+│   │   └── ErrorResponse.cs
 │   ├── Services/
 │   │   ├── IWeatherService.cs
 │   │   ├── WeatherService.cs
