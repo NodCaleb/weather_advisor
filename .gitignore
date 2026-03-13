@@ -416,3 +416,10 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# .NET local development settings (generated from *.example.json)
+appsettings.Development.json
+
+# Frontend local environment (generated from .env.example)
+frontend/.env.local
+frontend/.env.*.local

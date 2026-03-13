@@ -15,10 +15,10 @@
 
 **Purpose**: Initialize the .NET 10 backend solution and Vite React frontend with required tooling and baseline configuration.
 
-- [ ] T001 Create .NET 10 solution with WeatherAdvisor.Api and WeatherAdvisor.Tests projects per plan.md structure in backend/
-- [ ] T002 Initialize Vite React TypeScript frontend project with Axios dependency in frontend/
-- [ ] T003 [P] Create backend appsettings.json with OpenMeteo GeocodingBaseUrl, ForecastBaseUrl, TimeoutSeconds (5), and logging levels in backend/WeatherAdvisor.Api/appsettings.json
-- [ ] T004 [P] Create frontend environment template in frontend/.env.example with VITE_API_BASE_URL=http://localhost:5000
+- [x] T001 Create .NET 10 solution with WeatherAdvisor.Api and WeatherAdvisor.Tests projects per plan.md structure in backend/
+- [x] T002 Initialize Vite React TypeScript frontend project with Axios dependency in frontend/
+- [x] T003 [P] Create backend appsettings.json with OpenMeteo GeocodingBaseUrl, ForecastBaseUrl, TimeoutSeconds (5), and logging levels in backend/WeatherAdvisor.Api/appsettings.json
+- [x] T004 [P] Create frontend environment template in frontend/.env.example with VITE_API_BASE_URL=http://localhost:5000
 
 ---
 
