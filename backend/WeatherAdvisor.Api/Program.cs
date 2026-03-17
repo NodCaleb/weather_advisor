@@ -41,7 +41,7 @@ builder.Services.AddHttpClient("OpenMeteo.Forecast", client =>
 // --- Dependency Injection ---
 builder.Services.AddScoped<IOpenMeteoClient, OpenMeteoClient>();
 builder.Services.AddScoped<IWeatherService, WeatherService>();
-// IActivityAdvisorService registered in Phase 4
+builder.Services.AddScoped<IActivityAdvisorService, ActivityAdvisorService>();
 
 // --- MVC ---
 builder.Services.AddControllers();

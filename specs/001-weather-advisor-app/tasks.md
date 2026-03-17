@@ -66,14 +66,14 @@
 
 **Independent Test**: Load weather for any city → select "Cycling" with wind > 40 km/h → "Not Recommended" with wind explanation. Load weather with WMO code 95 → select any activity → "Not Recommended" with extreme weather message. Missing weather field → "Unknown" verdict without crash.
 
-- [ ] T021 [US2] Define IActivityAdvisorService interface with Evaluate(WeatherConditions conditions, ActivityType activity): Recommendation method in backend/WeatherAdvisor.Api/Services/IActivityAdvisorService.cs
-- [ ] T022 [US2] Implement ActivityAdvisorService with threshold constants (data-model.md §2), global extreme-severity override rule, and per-activity ordered evaluation rules with value-interpolated explanation templates per data-model.md §4 in backend/WeatherAdvisor.Api/Services/ActivityAdvisorService.cs
-- [ ] T023 [US2] Add POST /recommendation endpoint to WeatherController: deserialize request body, validate activity enum (422/UNSUPPORTED_ACTIVITY for unknown values), invoke IActivityAdvisorService, return RecommendationResponse per contracts/api.md in backend/WeatherAdvisor.Api/Controllers/WeatherController.cs
-- [ ] T024 [P] [US2] Write ActivityAdvisorService unit tests for all four activities across Suitable, Caution, NotRecommended verdicts, extreme-severity override, and Unknown fallback for missing data in backend/WeatherAdvisor.Tests/Services/ActivityAdvisorServiceTests.cs
-- [ ] T025 [P] [US2] Create ActivitySelector component presenting Running, Cycling, Picnic, Walking options with disabled state when no weather data is loaded in frontend/src/components/ActivitySelector.tsx
-- [ ] T026 [P] [US2] Create RecommendationCard component displaying verdict label with visual differentiation, explanation text, and loading/error states in frontend/src/components/RecommendationCard.tsx
-- [ ] T027 [US2] Extend useWeather hook to manage selected activity state and call weatherApiClient.fetchRecommendation using cached weather data on demand in frontend/src/hooks/useWeather.ts
-- [ ] T028 [US2] Integrate ActivitySelector and RecommendationCard into HomePage below WeatherCard with conditional rendering (only shown after weather loads) in frontend/src/pages/HomePage.tsx
+- [x] T021 [US2] Define IActivityAdvisorService interface with Evaluate(WeatherConditions conditions, ActivityType activity): Recommendation method in backend/WeatherAdvisor.Api/Services/IActivityAdvisorService.cs
+- [x] T022 [US2] Implement ActivityAdvisorService with threshold constants (data-model.md §2), global extreme-severity override rule, and per-activity ordered evaluation rules with value-interpolated explanation templates per data-model.md §4 in backend/WeatherAdvisor.Api/Services/ActivityAdvisorService.cs
+- [x] T023 [US2] Add POST /recommendation endpoint to WeatherController: deserialize request body, validate activity enum (422/UNSUPPORTED_ACTIVITY for unknown values), invoke IActivityAdvisorService, return RecommendationResponse per contracts/api.md in backend/WeatherAdvisor.Api/Controllers/WeatherController.cs
+- [x] T024 [P] [US2] Write ActivityAdvisorService unit tests for all four activities across Suitable, Caution, NotRecommended verdicts, extreme-severity override, and Unknown fallback for missing data in backend/WeatherAdvisor.Tests/Services/ActivityAdvisorServiceTests.cs
+- [x] T025 [P] [US2] Create ActivitySelector component presenting Running, Cycling, Picnic, Walking options with disabled state when no weather data is loaded in frontend/src/components/ActivitySelector.tsx
+- [x] T026 [P] [US2] Create RecommendationCard component displaying verdict label with visual differentiation, explanation text, and loading/error states in frontend/src/components/RecommendationCard.tsx
+- [x] T027 [US2] Extend useWeather hook to manage selected activity state and call weatherApiClient.fetchRecommendation using cached weather data on demand in frontend/src/hooks/useWeather.ts
+- [x] T028 [US2] Integrate ActivitySelector and RecommendationCard into HomePage below WeatherCard with conditional rendering (only shown after weather loads) in frontend/src/pages/HomePage.tsx
 
 **Checkpoint**: Full MVP complete — city lookup → weather display → activity selection → recommendation with explanation works end-to-end.
 

@@ -39,7 +39,9 @@
 }
 
 .city-search,
-.weather-card {
+.weather-card,
+.activity-selector,
+.recommendation-card {
   background: var(--surface);
   border: 1px solid var(--surface-border);
   border-radius: 16px;
@@ -95,6 +97,83 @@
 
 .home-page__hint {
   color: var(--muted);
+}
+
+.activity-selector,
+.recommendation-card {
+  margin-top: 1rem;
+}
+
+.activity-selector__title,
+.recommendation-card__title {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.activity-selector__options {
+  margin-top: 0.8rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.activity-selector__option {
+  border: 1px solid var(--surface-border);
+  background: #fff;
+  color: var(--text);
+  border-radius: 999px;
+  padding: 0.5rem 0.85rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.activity-selector__option.is-active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.activity-selector__option:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.recommendation-card__verdict {
+  margin: 0.75rem 0 0;
+  display: inline-block;
+  border-radius: 999px;
+  padding: 0.3rem 0.7rem;
+  font-weight: 700;
+  background: #efe6d4;
+}
+
+.recommendation-card__message,
+.recommendation-card__error {
+  margin: 0.7rem 0 0;
+}
+
+.recommendation-card__error {
+  color: var(--error);
+}
+
+.verdict-suitable {
+  background: #d9f0e6;
+  color: #1e5b3f;
+}
+
+.verdict-caution {
+  background: #fff1cf;
+  color: #7a5517;
+}
+
+.verdict-notrecommended {
+  background: #f7d8d1;
+  color: #7c2a1d;
+}
+
+.verdict-unknown {
+  background: #e8e5dd;
+  color: #52473a;
 }
 
 .weather-card__title {
