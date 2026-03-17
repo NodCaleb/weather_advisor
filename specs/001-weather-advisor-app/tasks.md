@@ -47,14 +47,14 @@
 
 **Independent Test**: Enter "London" → weather card displays all four weather fields. Enter "xyznotacity" → "City not found" message, no partial data. Disable backend → "Weather data is currently unavailable." message appears without crashing.
 
-- [ ] T013 [US1] Define IWeatherService interface with GetWeatherAsync(string city) returning WeatherResponse in backend/WeatherAdvisor.Api/Services/IWeatherService.cs
-- [ ] T014 [US1] Implement WeatherService orchestrating geocoding lookup → forecast fetch → WMO code-to-label mapping per data-model.md §3, classifying Open-Meteo failures to typed exceptions in backend/WeatherAdvisor.Api/Services/WeatherService.cs
-- [ ] T015 [US1] Implement WeatherController with GET /weather endpoint: model validation, address (city name) normalization, service call, and error-code mapping (400/404/503/504) to ErrorResponse envelope per contracts/api.md in backend/WeatherAdvisor.Api/Controllers/WeatherController.cs
-- [ ] T016 [P] [US1] Write WeatherService unit tests covering successful fetch, CITY_NOT_FOUND, WEATHER_SERVICE_TIMEOUT, WEATHER_SERVICE_UNAVAILABLE, all WMO label mappings, and input normalization (verify that mixed-case city names and city names with surrounding whitespace return the same result as the trimmed, normalized form — per US1/S2) in backend/WeatherAdvisor.Tests/Services/WeatherServiceTests.cs
-- [ ] T017 [P] [US1] Create CitySearch component with text input, submit handler, loading spinner, and error/empty state display in frontend/src/components/CitySearch.tsx
-- [ ] T018 [P] [US1] Create WeatherCard component displaying resolved city name, temperature (°C), wind speed (km/h), precipitation probability (%), and condition label in frontend/src/components/WeatherCard.tsx
-- [ ] T019 [US1] Implement useWeather hook managing weather fetch lifecycle (idle → loading → success/error) and invoking weatherApiClient.fetchWeather in frontend/src/hooks/useWeather.ts
-- [ ] T020 [US1] Compose HomePage with CitySearch and conditional WeatherCard rendering based on weather state (idle/loading/success/error) in frontend/src/pages/HomePage.tsx
+- [x] T013 [US1] Define IWeatherService interface with GetWeatherAsync(string city) returning WeatherResponse in backend/WeatherAdvisor.Api/Services/IWeatherService.cs
+- [x] T014 [US1] Implement WeatherService orchestrating geocoding lookup → forecast fetch → WMO code-to-label mapping per data-model.md §3, classifying Open-Meteo failures to typed exceptions in backend/WeatherAdvisor.Api/Services/WeatherService.cs
+- [x] T015 [US1] Implement WeatherController with GET /weather endpoint: model validation, address (city name) normalization, service call, and error-code mapping (400/404/503/504) to ErrorResponse envelope per contracts/api.md in backend/WeatherAdvisor.Api/Controllers/WeatherController.cs
+- [x] T016 [P] [US1] Write WeatherService unit tests covering successful fetch, CITY_NOT_FOUND, WEATHER_SERVICE_TIMEOUT, WEATHER_SERVICE_UNAVAILABLE, all WMO label mappings, and input normalization (verify that mixed-case city names and city names with surrounding whitespace return the same result as the trimmed, normalized form — per US1/S2) in backend/WeatherAdvisor.Tests/Services/WeatherServiceTests.cs
+- [x] T017 [P] [US1] Create CitySearch component with text input, submit handler, loading spinner, and error/empty state display in frontend/src/components/CitySearch.tsx
+- [x] T018 [P] [US1] Create WeatherCard component displaying resolved city name, temperature (°C), wind speed (km/h), precipitation probability (%), and condition label in frontend/src/components/WeatherCard.tsx
+- [x] T019 [US1] Implement useWeather hook managing weather fetch lifecycle (idle → loading → success/error) and invoking weatherApiClient.fetchWeather in frontend/src/hooks/useWeather.ts
+- [x] T020 [US1] Compose HomePage with CitySearch and conditional WeatherCard rendering based on weather state (idle/loading/success/error) in frontend/src/pages/HomePage.tsx
 
 **Checkpoint**: User Story 1 fully functional — city weather retrieval with all error states works end-to-end independently.
 

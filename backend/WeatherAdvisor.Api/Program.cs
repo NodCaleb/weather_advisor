@@ -1,5 +1,6 @@
 using WeatherAdvisor.Api.Configuration;
 using WeatherAdvisor.Api.Integration;
+using WeatherAdvisor.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,7 +40,8 @@ builder.Services.AddHttpClient("OpenMeteo.Forecast", client =>
 
 // --- Dependency Injection ---
 builder.Services.AddScoped<IOpenMeteoClient, OpenMeteoClient>();
-// IWeatherService and IActivityAdvisorService registered in Phase 3 / Phase 4
+builder.Services.AddScoped<IWeatherService, WeatherService>();
+// IActivityAdvisorService registered in Phase 4
 
 // --- MVC ---
 builder.Services.AddControllers();

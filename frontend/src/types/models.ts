@@ -23,9 +23,11 @@ export interface ErrorResponse {
 }
 
 /** Supported outdoor activity types */
-export enum ActivityType {
-  Running = 'Running',
-  Cycling = 'Cycling',
-  Picnic = 'Picnic',
-  Walking = 'Walking',
-}
+export const ActivityType = {
+  Running: 'Running',
+  Cycling: 'Cycling',
+  Picnic: 'Picnic',
+  Walking: 'Walking',
+} as const;
+
+export type ActivityType = (typeof ActivityType)[keyof typeof ActivityType];
