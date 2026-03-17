@@ -35,7 +35,7 @@ public class ActivityAdvisorService : IActivityAdvisorService
             return new Recommendation
             {
                 Verdict = RecommendationVerdict.NotRecommended,
-                Explanation = "Severe weather conditions (storm or extreme wind) make outdoor activities unsafe."
+                Explanation = $"Severe weather detected (code {weatherCode}) with wind speed {FormatDecimal(windSpeedKmh)} km/h, making outdoor activities unsafe."
             };
         }
 
@@ -94,7 +94,7 @@ public class ActivityAdvisorService : IActivityAdvisorService
         return new Recommendation
         {
             Verdict = RecommendationVerdict.Suitable,
-            Explanation = $"Weather is {WeatherService.MapConditionLabel(weatherCode)} with mild conditions - good for a run."
+            Explanation = $"Weather is {WeatherService.MapConditionLabel(weatherCode)} with wind speed {FormatDecimal(windSpeedKmh)} km/h and rain probability {precipitationProbabilityPct}% - good for a run."
         };
     }
 
@@ -121,7 +121,7 @@ public class ActivityAdvisorService : IActivityAdvisorService
         return new Recommendation
         {
             Verdict = RecommendationVerdict.Suitable,
-            Explanation = "Wind conditions are calm - good for cycling."
+            Explanation = $"Wind speed is {FormatDecimal(windSpeedKmh)} km/h, which is calm and good for cycling."
         };
     }
 
@@ -175,7 +175,7 @@ public class ActivityAdvisorService : IActivityAdvisorService
         return new Recommendation
         {
             Verdict = RecommendationVerdict.Suitable,
-            Explanation = "Conditions are fine for a walk."
+            Explanation = $"Wind speed is {FormatDecimal(windSpeedKmh)} km/h, so conditions are fine for a walk."
         };
     }
 

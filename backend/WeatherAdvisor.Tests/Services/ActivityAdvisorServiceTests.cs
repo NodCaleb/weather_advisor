@@ -20,6 +20,8 @@ public class ActivityAdvisorServiceTests
             ActivityType.Running);
 
         Assert.Equal(RecommendationVerdict.Suitable, recommendation.Verdict);
+        Assert.Contains("10.0", recommendation.Explanation);
+        Assert.Contains("20%", recommendation.Explanation);
     }
 
     [Fact]
@@ -70,6 +72,7 @@ public class ActivityAdvisorServiceTests
             ActivityType.Cycling);
 
         Assert.Equal(RecommendationVerdict.Suitable, recommendation.Verdict);
+        Assert.Contains("12.0", recommendation.Explanation);
     }
 
     [Fact]
@@ -120,6 +123,7 @@ public class ActivityAdvisorServiceTests
             ActivityType.Picnic);
 
         Assert.Equal(RecommendationVerdict.Suitable, recommendation.Verdict);
+        Assert.Contains("22.0", recommendation.Explanation);
     }
 
     [Fact]
@@ -170,6 +174,7 @@ public class ActivityAdvisorServiceTests
             ActivityType.Walking);
 
         Assert.Equal(RecommendationVerdict.Suitable, recommendation.Verdict);
+        Assert.Contains("20.0", recommendation.Explanation);
     }
 
     [Fact]
@@ -206,6 +211,8 @@ public class ActivityAdvisorServiceTests
             ActivityType.Running);
 
         Assert.Equal(RecommendationVerdict.NotRecommended, recommendation.Verdict);
+        Assert.Contains(weatherCode.ToString(), recommendation.Explanation);
+        Assert.Contains("12.0", recommendation.Explanation);
     }
 
     [Fact]
@@ -222,6 +229,7 @@ public class ActivityAdvisorServiceTests
             ActivityType.Cycling);
 
         Assert.Equal(RecommendationVerdict.NotRecommended, recommendation.Verdict);
+        Assert.Contains("61.0", recommendation.Explanation);
     }
 
     [Fact]

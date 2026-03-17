@@ -85,8 +85,8 @@
 
 **Independent Test**: For every verdict tier (Suitable/Caution/NotRecommended) across all four activities, the explanation string displayed contains the actual interpolated value — e.g., "Rain probability is 72%", "Wind speed is 45 km/h" — not a generic message.
 
-- [ ] T029 [P] [US3] Extend ActivityAdvisorService unit tests to assert each explanation string contains the actual interpolated weather value for all verdict/activity combinations (e.g., `Contains("72%")` when precipitationProbabilityPct = 72) in backend/WeatherAdvisor.Tests/Services/ActivityAdvisorServiceTests.cs
-- [ ] T030 [P] [US3] Write Vitest component test for RecommendationCard verifying verdict label and explanation text prop are rendered visibly in frontend/tests/components/RecommendationCard.test.tsx
+- [x] T029 [P] [US3] Extend ActivityAdvisorService unit tests to assert each explanation string contains the actual interpolated weather value for all verdict/activity combinations (e.g., `Contains("72%")` when precipitationProbabilityPct = 72) in backend/WeatherAdvisor.Tests/Services/ActivityAdvisorServiceTests.cs
+- [x] T030 [P] [US3] Write Vitest component test for RecommendationCard verifying verdict label and explanation text prop are rendered visibly in frontend/tests/components/RecommendationCard.test.tsx
 
 **Checkpoint**: Explanation content verified — each recommendation meaningfully cites the causal weather factor with actual values, confirmed by tests.
 
