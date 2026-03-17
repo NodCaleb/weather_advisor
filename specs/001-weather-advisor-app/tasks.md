@@ -98,8 +98,8 @@
 
 **Independent Test**: Load weather for a city → select "Running" → view verdict → select "Cycling" → recommendation card updates immediately; browser network tab shows no new GET /weather request and no page navigation.
 
-- [ ] T031 [US4] Update useWeather hook with useEffect to auto-trigger fetchRecommendation whenever selectedActivity changes while weatherData is non-null, without clearing weatherData in frontend/src/hooks/useWeather.ts
-- [ ] T032 [P] [US4] Write Vitest integration test verifying that switching selectedActivity calls fetchRecommendation once without calling fetchWeather again in frontend/tests/components/HomePage.test.tsx
+- [x] T031 [US4] Update useWeather hook with useEffect to auto-trigger fetchRecommendation whenever selectedActivity changes while weatherData is non-null, without clearing weatherData in frontend/src/hooks/useWeather.ts
+- [x] T032 [P] [US4] Write Vitest integration test verifying that switching selectedActivity calls fetchRecommendation once without calling fetchWeather again in frontend/tests/components/HomePage.test.tsx
 
 **Checkpoint**: Activity switching reactive — recommendation updates immediately on selection, weather data preserved, confirmed by integration test.
 
@@ -111,10 +111,10 @@
 
 **Independent Test**: Non-existent city → "City not found" with re-entry opportunity. Simulated API timeout → "retry" prompt. POST /recommendation with unsupported activity → HTTP 422 UNSUPPORTED_ACTIVITY. Unhandled backend exception → HTTP 500 with INTERNAL_ERROR code, no stack trace in response body.
 
-- [ ] T033 [US5] Implement comprehensive error state management in useWeather hook: map each API error code to a typed user message, clear weatherData and recommendation on CITY_NOT_FOUND per FR-008 in frontend/src/hooks/useWeather.ts
-- [ ] T034 [P] [US5] Add error message display to CitySearch component for CITY_NOT_FOUND (re-entry prompt), WEATHER_SERVICE_TIMEOUT (retry prompt), and WEATHER_SERVICE_UNAVAILABLE messages in frontend/src/components/CitySearch.tsx
-- [ ] T035 [P] [US5] Register global exception handler middleware in Program.cs suppressing stack traces and returning INTERNAL_ERROR ErrorResponse for all unhandled exceptions in backend/WeatherAdvisor.Api/Program.cs
-- [ ] T036 [P] [US5] Write OpenMeteoClient unit tests for 5-second timeout enforcement and non-success HTTP response classification (503 → WEATHER_SERVICE_UNAVAILABLE, timeout → WEATHER_SERVICE_TIMEOUT) in backend/WeatherAdvisor.Tests/Integration/OpenMeteoClientTests.cs
+- [x] T033 [US5] Implement comprehensive error state management in useWeather hook: map each API error code to a typed user message, clear weatherData and recommendation on CITY_NOT_FOUND per FR-008 in frontend/src/hooks/useWeather.ts
+- [x] T034 [P] [US5] Add error message display to CitySearch component for CITY_NOT_FOUND (re-entry prompt), WEATHER_SERVICE_TIMEOUT (retry prompt), and WEATHER_SERVICE_UNAVAILABLE messages in frontend/src/components/CitySearch.tsx
+- [x] T035 [P] [US5] Register global exception handler middleware in Program.cs suppressing stack traces and returning INTERNAL_ERROR ErrorResponse for all unhandled exceptions in backend/WeatherAdvisor.Api/Program.cs
+- [x] T036 [P] [US5] Write OpenMeteoClient unit tests for 5-second timeout enforcement and non-success HTTP response classification (503 → WEATHER_SERVICE_UNAVAILABLE, timeout → WEATHER_SERVICE_TIMEOUT) in backend/WeatherAdvisor.Tests/Integration/OpenMeteoClientTests.cs
 
 **Checkpoint**: All error scenarios handled — every failure mode produces a user-readable message; global exception handler prevents internal error exposure.
 
@@ -124,9 +124,9 @@
 
 **Purpose**: Developer-experience configuration, environment file completeness, and full end-to-end quickstart validation.
 
-- [ ] T037 [P] Create appsettings.Development.example.json with debug-level logging override for WeatherAdvisor namespace in backend/WeatherAdvisor.Api/appsettings.Development.example.json
-- [ ] T038 [P] Ensure weatherApiClient.ts reads VITE_API_BASE_URL from import.meta.env with a localhost:5000 fallback for local development in frontend/src/services/weatherApiClient.ts
-- [ ] T039 Run complete end-to-end quickstart validation per quickstart.md: backend starts on :5000 (`dotnet run`), frontend starts on :5173 (`npm run dev`), full user journey (city entry → weather → activity → recommendation) works in browser
+- [x] T037 [P] Create appsettings.Development.example.json with debug-level logging override for WeatherAdvisor namespace in backend/WeatherAdvisor.Api/appsettings.Development.example.json
+- [x] T038 [P] Ensure weatherApiClient.ts reads VITE_API_BASE_URL from import.meta.env with a localhost:5000 fallback for local development in frontend/src/services/weatherApiClient.ts
+- [x] T039 Run complete end-to-end quickstart validation per quickstart.md: backend starts on :5000 (`dotnet run`), frontend starts on :5173 (`npm run dev`), full user journey (city entry → weather → activity → recommendation) works in browser
 
 ---
 

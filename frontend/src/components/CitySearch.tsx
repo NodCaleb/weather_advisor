@@ -1,13 +1,22 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 
+type CitySearchErrorCode =
+  | 'CITY_NOT_FOUND'
+  | 'WEATHER_SERVICE_TIMEOUT'
+  | 'WEATHER_SERVICE_UNAVAILABLE'
+  | 'VALIDATION_ERROR'
+  | 'INTERNAL_ERROR'
+  | 'UNKNOWN';
+
 interface CitySearchProps {
   isLoading: boolean;
+  errorCode: CitySearchErrorCode | null;
   errorMessage: string | null;
   onSearch: (city: string) => Promise<void>;
 }
 
-export function CitySearch({ isLoading, errorMessage, onSearch }: CitySearchProps) {
+export function CitySearch({ isLoading, errorCode, errorMessage, onSearch }: CitySearchProps) {
   const [city, setCity] = useState('');
 
   async function handleSubmit(event: FormEvent) {
@@ -40,7 +49,14 @@ export function CitySearch({ isLoading, errorMessage, onSearch }: CitySearchProp
           {isLoading ? 'Loading...' : 'Search'}
         </button>
       </div>
-      {errorMessage && <p className="city-search__error">{errorMessage}</p>}
+      {errorMessage && (
+        <div className="city-search__error" role="alert" aria-live="polite">
+          <p>{errorMessage}</p>
+          {errorCode === 'CITY_NOT_FOUND' && <p>Please re-enter the city name and search again.</p>}
+          {errorCode === 'WEATHER_SERVICE_TIMEOUT' && <p>The service took too long. Please retry.</p>}
+          {errorCode === 'WEATHER_SERVICE_UNAVAILABLE' && <p>Try again in a few moments.</p>}
+        </div>
+      )}
     </form>
   );
 }

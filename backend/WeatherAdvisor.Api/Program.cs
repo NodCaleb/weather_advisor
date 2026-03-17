@@ -1,5 +1,6 @@
 using WeatherAdvisor.Api.Configuration;
 using WeatherAdvisor.Api.Integration;
+using WeatherAdvisor.Api.Models;
 using WeatherAdvisor.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -54,6 +55,29 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
+
+app.UseExceptionHandler(exceptionHandlerApp =>
+{
+    exceptionHandlerApp.Run(async context =>
+    {
+        var logger = context.RequestServices.GetRequiredService<ILoggerFactory>().CreateLogger("GlobalExceptionHandler");
+        var exception = context.Features.Get<Microsoft.AspNetCore.Diagnostics.IExceptionHandlerFeature>()?.Error;
+
+        if (exception is not null)
+        {
+            logger.LogError(exception, "Unhandled exception during request processing.");
+        }
+
+        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+        context.Response.ContentType = "application/json";
+
+        await context.Response.WriteAsJsonAsync(new ErrorResponse
+        {
+            Code = "INTERNAL_ERROR",
+            Message = "An unexpected error occurred."
+        });
+    });
+});
 
 app.UseHttpsRedirection();
 app.UseCors(CorsPolicyName);

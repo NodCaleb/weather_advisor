@@ -8,6 +8,7 @@ export function HomePage() {
   const {
     status,
     weather,
+    weatherErrorCode,
     errorMessage,
     selectedActivity,
     recommendationStatus,
@@ -26,6 +27,7 @@ export function HomePage() {
 
       <CitySearch
         isLoading={status === 'loading'}
+        errorCode={weatherErrorCode}
         errorMessage={errorMessage}
         onSearch={loadWeather}
       />

@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Net.Http.Json;
 using WeatherAdvisor.Api.Exceptions;
 using WeatherAdvisor.Api.Integration.Models;
@@ -58,7 +59,9 @@ public class OpenMeteoClient : IOpenMeteoClient
     public async Task<(double TemperatureCelsius, double WindSpeedKmh, int PrecipitationProbabilityPct, int WeatherCode)> GetCurrentWeatherAsync(double latitude, double longitude)
     {
         var client = _httpClientFactory.CreateClient("OpenMeteo.Forecast");
-        var url = $"/v1/forecast?latitude={latitude}&longitude={longitude}" +
+        var latitudeInvariant = latitude.ToString(CultureInfo.InvariantCulture);
+        var longitudeInvariant = longitude.ToString(CultureInfo.InvariantCulture);
+        var url = $"/v1/forecast?latitude={latitudeInvariant}&longitude={longitudeInvariant}" +
                   "&current=temperature_2m,wind_speed_10m,precipitation_probability,weather_code" +
                   "&wind_speed_unit=kmh&timezone=auto";
 
