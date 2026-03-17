@@ -28,14 +28,14 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete.
 
-- [ ] T005 Create OpenMeteoOptions configuration class binding GeocodingBaseUrl, ForecastBaseUrl, and TimeoutSeconds in backend/WeatherAdvisor.Api/Configuration/OpenMeteoOptions.cs
-- [ ] T006 [P] Create Open-Meteo deserialization models GeocodingResponse.cs and ForecastResponse.cs in backend/WeatherAdvisor.Api/Integration/Models/
-- [ ] T007 [P] Create domain request/response models: GetWeatherRequest.cs in backend/WeatherAdvisor.Api/Models/Requests/, WeatherResponse.cs and RecommendationResponse.cs in backend/WeatherAdvisor.Api/Models/Responses/, and ErrorResponse.cs in backend/WeatherAdvisor.Api/Models/
-- [ ] T008 Define IOpenMeteoClient interface with GetCoordinatesAsync and GetCurrentWeatherAsync method signatures in backend/WeatherAdvisor.Api/Integration/IOpenMeteoClient.cs
-- [ ] T009 Implement OpenMeteoClient using IHttpClientFactory with 5-second timeout enforcement for geocoding (R-001) and forecast (R-002) calls in backend/WeatherAdvisor.Api/Integration/OpenMeteoClient.cs
-- [ ] T010 Configure Program.cs with DI registrations for IOpenMeteoClient, IWeatherService, IActivityAdvisorService; HttpClientFactory named clients; CORS policy for localhost:5173; and structured logging in backend/WeatherAdvisor.Api/Program.cs
-- [ ] T011 [P] Define TypeScript types (WeatherResponse, RecommendationResponse, ErrorResponse, ActivityType enum) aligned with contracts/api.md in frontend/src/types/models.ts
-- [ ] T012 Implement weatherApiClient.ts with fetchWeather(city: string) and fetchRecommendation(weather, activity) functions using Axios and VITE_API_BASE_URL in frontend/src/services/weatherApiClient.ts
+- [x] T005 Create OpenMeteoOptions configuration class binding GeocodingBaseUrl, ForecastBaseUrl, and TimeoutSeconds in backend/WeatherAdvisor.Api/Configuration/OpenMeteoOptions.cs
+- [x] T006 [P] Create Open-Meteo deserialization models GeocodingResponse.cs and ForecastResponse.cs in backend/WeatherAdvisor.Api/Integration/Models/
+- [x] T007 [P] Create domain request/response models: GetWeatherRequest.cs in backend/WeatherAdvisor.Api/Models/Requests/, WeatherResponse.cs and RecommendationResponse.cs in backend/WeatherAdvisor.Api/Models/Responses/, and ErrorResponse.cs in backend/WeatherAdvisor.Api/Models/
+- [x] T008 Define IOpenMeteoClient interface with GetCoordinatesAsync and GetCurrentWeatherAsync method signatures in backend/WeatherAdvisor.Api/Integration/IOpenMeteoClient.cs
+- [x] T009 Implement OpenMeteoClient using IHttpClientFactory with 5-second timeout enforcement for geocoding (R-001) and forecast (R-002) calls in backend/WeatherAdvisor.Api/Integration/OpenMeteoClient.cs
+- [x] T010 Configure Program.cs with DI registrations for IOpenMeteoClient, IWeatherService, IActivityAdvisorService; HttpClientFactory named clients; CORS policy for localhost:5173; and structured logging in backend/WeatherAdvisor.Api/Program.cs
+- [x] T011 [P] Define TypeScript types (WeatherResponse, RecommendationResponse, ErrorResponse, ActivityType enum) aligned with contracts/api.md in frontend/src/types/models.ts
+- [x] T012 Implement weatherApiClient.ts with fetchWeather(city: string) and fetchRecommendation(weather, activity) functions using Axios and VITE_API_BASE_URL in frontend/src/services/weatherApiClient.ts
 
 **Checkpoint**: Backend infrastructure and frontend API client ready — user story implementation can now begin in parallel.
 
