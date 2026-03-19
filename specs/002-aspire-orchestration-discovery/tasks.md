@@ -77,7 +77,7 @@
 
 ### Implementation for User Story 3
 
-- [ ] T006 [US3] Validate Aspire dashboard accessibility: run `aspire run --project backend/WeatherAdvisor.AppHost`, confirm the dashboard URL (format `https://localhost:{port}/login?t={token}`) is printed to the terminal, open the URL in a browser, and confirm both `weatheradvisor-api` and `frontend` are listed as **Running** — no code changes are required because the Aspire dashboard is built into the AppHost runtime (SC-004 acceptance criteria are satisfied by this built-in capability)
+- [x] T006 [US3] Validate Aspire dashboard accessibility: run `aspire run --project backend/WeatherAdvisor.AppHost`, confirm the dashboard URL (format `https://localhost:{port}/login?t={token}`) is printed to the terminal, open the URL in a browser, and confirm both `weatheradvisor-api` and `frontend` are listed as **Running** — no code changes are required because the Aspire dashboard is built into the AppHost runtime (SC-004 acceptance criteria are satisfied by this built-in capability)
 
 **Checkpoint**: All three user stories are independently functional — the full local stack runs, components are observable via the Aspire dashboard, and any failure is identifiable within 1 minute
 
@@ -87,9 +87,9 @@
 
 **Purpose**: Regression check and end-to-end quickstart validation across the full feature.
 
-- [ ] T007 [P] Run `dotnet test` from `backend/` to confirm no regressions introduced by the CORS policy update in `backend/WeatherAdvisor.Api/Program.cs` — all existing tests in `WeatherAdvisor.Tests/` must pass
-- [ ] T009 [P] Verify individual component startup still works (FR-007): run `dotnet run --project backend/WeatherAdvisor.Api/WeatherAdvisor.Api.csproj` and confirm the API starts on its standalone port; then run `npm run dev` from `frontend/` and confirm the Vite dev server starts independently — both MUST succeed without the AppHost
-- [ ] T008 Run full quickstart validation per `specs/002-aspire-orchestration-discovery/quickstart.md` steps 3–4: start the stack with `aspire run --project backend/WeatherAdvisor.AppHost`, confirm all components reach Running state in the terminal, open the Aspire dashboard, query the API via the dashboard-printed port using the PowerShell snippet from step 4, and verify end-to-end weather lookup succeeds from the browser (confirms SC-001 through SC-004)
+- [x] T007 [P] Run `dotnet test` from `backend/` to confirm no regressions introduced by the CORS policy update in `backend/WeatherAdvisor.Api/Program.cs` — all existing tests in `WeatherAdvisor.Tests/` must pass
+- [x] T009 [P] Verify individual component startup still works (FR-007): run `dotnet run --project backend/WeatherAdvisor.Api/WeatherAdvisor.Api.csproj` and confirm the API starts on its standalone port; then run `npm run dev` from `frontend/` and confirm the Vite dev server starts independently — both MUST succeed without the AppHost
+- [x] T008 Run full quickstart validation per `specs/002-aspire-orchestration-discovery/quickstart.md` steps 3–4: start the stack with `aspire run --project backend/WeatherAdvisor.AppHost`, confirm all components reach Running state in the terminal, open the Aspire dashboard, query the API via the dashboard-printed port using the PowerShell snippet from step 4, and verify end-to-end weather lookup succeeds from the browser (confirms SC-001 through SC-004)
 
 ---
 
