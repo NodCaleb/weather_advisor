@@ -88,6 +88,7 @@
 **Purpose**: Regression check and end-to-end quickstart validation across the full feature.
 
 - [ ] T007 [P] Run `dotnet test` from `backend/` to confirm no regressions introduced by the CORS policy update in `backend/WeatherAdvisor.Api/Program.cs` — all existing tests in `WeatherAdvisor.Tests/` must pass
+- [ ] T009 [P] Verify individual component startup still works (FR-007): run `dotnet run --project backend/WeatherAdvisor.Api/WeatherAdvisor.Api.csproj` and confirm the API starts on its standalone port; then run `npm run dev` from `frontend/` and confirm the Vite dev server starts independently — both MUST succeed without the AppHost
 - [ ] T008 Run full quickstart validation per `specs/002-aspire-orchestration-discovery/quickstart.md` steps 3–4: start the stack with `aspire run --project backend/WeatherAdvisor.AppHost`, confirm all components reach Running state in the terminal, open the Aspire dashboard, query the API via the dashboard-printed port using the PowerShell snippet from step 4, and verify end-to-end weather lookup succeeds from the browser (confirms SC-001 through SC-004)
 
 ---
@@ -101,7 +102,7 @@
 - **User Story 1 (Phase 3)**: Depends on T001 (AppHost `.csproj` must exist before `Program.cs` is written and `dotnet build` resolves `Projects.WeatherAdvisor_Api`) and T003 (user secrets prerequisite)
 - **User Story 2 (Phase 4)**: T005 modifies `WeatherAdvisor.Api/Program.cs` — different file from T004; can be implemented in parallel at the file level, but validate together with US1
 - **User Story 3 (Phase 5)**: T006 is a validation task requiring both T004 (AppHost running) and T005 (CORS working) to pass acceptance criteria meaningfully
-- **Polish (Phase 6)**: T007 and T008 can run in parallel after all user stories are complete
+- **Polish (Phase 6)**: T007, T009, and T008 can run in parallel after all user stories are complete
 
 ### User Story Dependencies
 
@@ -140,9 +141,10 @@
 ### Phase 6: Polish
 
 ```bash
-# T007 and T008 can run in parallel:
+# T007, T009, and T008 can run in parallel:
 # Agent A: dotnet test backend/
-# Agent B: aspire run + quickstart manual validation
+# Agent B: npm run dev / dotnet run standalone check (FR-007)
+# Agent C: aspire run + quickstart manual validation
 ```
 
 ---
@@ -163,7 +165,7 @@ At the MVP checkpoint: `aspire run` starts both components. The API is reachable
 
 - T005 [US2] — CORS update to allow dynamic frontend port
 - T006 [US3] — Dashboard validation (no code changes required)
-- T007, T008 — Regression tests and quickstart sign-off
+- T007, T009, T008 — Regression tests, standalone startup check (FR-007), and quickstart sign-off
 
 ---
 
@@ -176,12 +178,12 @@ At the MVP checkpoint: `aspire run` starts both components. The API is reachable
 | 3 — US1 (P1) | T004 | US1 | `aspire run` starts API + frontend (single command) |
 | 4 — US2 (P2) | T005 | US2 | CORS allows dynamic frontend port (auto-discovery works) |
 | 5 — US3 (P3) | T006 | US3 | Aspire dashboard surfaces component health (validation) |
-| 6 — Polish | T007, T008 | — | Regression tests pass; quickstart validated end-to-end |
+| 6 — Polish | T007, T009, T008 | — | Regression tests pass; standalone startup verified (FR-007); quickstart validated end-to-end |
 
 **Total tasks**: 8  
 **US1 tasks**: 1 (T004)  
 **US2 tasks**: 1 (T005)  
 **US3 tasks**: 1 (T006)  
-**Parallel opportunities**: Phase 1 (T001‖T002), Phase 3+4 (T004‖T005), Phase 6 (T007‖T008)  
+**Parallel opportunities**: Phase 1 (T001‖T002), Phase 3+4 (T004‖T005), Phase 6 (T007‖T009‖T008)  
 **Suggested MVP**: Phase 1 → Phase 2 → Phase 3 (T001–T004)  
 **Format validation**: All tasks follow `- [ ] TID [P?] [Story?] Description with file path` ✅

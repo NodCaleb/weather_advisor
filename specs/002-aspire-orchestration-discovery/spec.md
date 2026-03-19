@@ -9,7 +9,7 @@
 
 ### Session 2026-03-19
 
-- Q: Should the Vite/React frontend be included in the Aspire AppHost, or remain a manual/separate startup step? → A: Include frontend in AppHost via `AddNpmApp` (Vite dev server managed by Aspire)
+- Q: Should the Vite/React frontend be included in the Aspire AppHost, or remain a manual/separate startup step? → A: Include frontend in AppHost via `AddNpmApp` (Vite dev server managed by Aspire) — implemented using `AddViteApp`, Aspire's Vite-specialised wrapper around `AddNpmApp`
 - Q: How should local developer secrets (e.g. API keys) be supplied to Aspire-managed components? → A: User Secrets (`dotnet user-secrets`) forwarded automatically by Aspire to the API resource
 - Q: How does the frontend resolve the backend API URL at runtime under Aspire? → A: Aspire injects backend URL as env var; Vite config maps it to `VITE_API_BASE_URL`
 - Q: Should Aspire assign ports dynamically or use fixed declared ports in the AppHost? → A: Dynamic port assignment by Aspire (no fixed ports declared in AppHost)
@@ -43,7 +43,7 @@ As a developer, I want components to discover each other automatically so intern
 **Acceptance Scenarios**:
 
 1. **Given** components are started through the orchestration workflow, **When** one component sends a request to another component, **Then** the request succeeds without manually configured target URLs.
-2. **Given** a component instance is restarted with a new runtime endpoint, **When** dependent components communicate with it, **Then** communication continues without developer reconfiguration.
+2. **Given** a component instance is restarted within a running Aspire session, **When** dependent components communicate with it, **Then** communication continues without developer reconfiguration. *(Within a session, Aspire does not reassign the dynamic port on restart — the endpoint URL remains stable for the session lifetime.)*
 
 ---
 
@@ -72,10 +72,10 @@ As a developer, I want a single place to see startup and runtime health of compo
 ### Functional Requirements
 
 - **FR-001**: The system MUST provide a single developer-triggered workflow that starts all required application components for local development.
-- **FR-002**: The system MUST define which components are part of the local development topology and ensure each is included in the startup workflow. The topology consists of exactly two components: the **WeatherAdvisor.Api** (.NET backend) and the **frontend** (Vite/React dev server), both managed within the Aspire `AppHost` — the frontend via `AddNpmApp`.
+- **FR-002**: The system MUST define which components are part of the local development topology and ensure each is included in the startup workflow. The topology consists of exactly two components: the **WeatherAdvisor.Api** (.NET backend) and the **frontend** (Vite/React dev server), both managed within the Aspire `AppHost` — the frontend via `AddViteApp` (Aspire's Vite-specialised wrapper around `AddNpmApp`).
 - **FR-003**: The system MUST expose clear startup status per component, including success and failure outcomes.
 - **FR-004**: The system MUST enable automatic internal service discovery so components can communicate without manually configured inter-service URLs. Specifically, Aspire MUST inject the backend API's runtime URL into the frontend npm resource as an environment variable (following the Aspire `services__{name}__{scheme}__{index}` convention); the Vite configuration MUST expose this as `VITE_API_BASE_URL` so the frontend TypeScript client can consume it without any hardcoded `localhost` port.
-- **FR-005**: The system MUST allow dependent components to continue resolving target components after target restarts or endpoint changes during local development sessions.
+- **FR-005**: The system MUST allow dependent components to continue resolving target components after target restarts or endpoint changes during local development sessions. *(Note: within a single Aspire session, dynamic port allocations are stable — the dynamic port assigned to a component at session start is not reassigned when that component restarts. No developer reconfiguration is required between restarts in the same session.)*
 - **FR-006**: The system MUST surface actionable diagnostic information when startup fails or inter-component communication fails.
 - **FR-007**: Developers MUST be able to run existing local workflows for individual components when full-stack orchestration is not needed.
 - **FR-008**: The system MUST document the one-command startup workflow and expected local prerequisites, including required `dotnet user-secrets` entries that must be populated before first launch.
@@ -90,7 +90,7 @@ As a developer, I want a single place to see startup and runtime health of compo
 ### Assumptions
 
 - The feature applies to local development environments used by project contributors.
-- The orchestrated topology includes the WeatherAdvisor.Api backend and the Vite/React frontend; the frontend dev server is managed by Aspire via `AddNpmApp`.
+- The orchestrated topology includes the WeatherAdvisor.Api backend and the Vite/React frontend; the frontend dev server is managed by Aspire via `AddViteApp` (the Vite-specialised wrapper around `AddNpmApp`).
 - Local developer secrets (e.g. Open-Meteo API key) are managed via .NET User Secrets scoped to `WeatherAdvisor.Api`; Aspire forwards these automatically — no secrets are committed to source control.
 - Aspire assigns all component ports dynamically; no fixed ports are declared in the AppHost.
 - Existing application components remain independently runnable.
