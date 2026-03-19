@@ -24,8 +24,8 @@
 
 **Purpose**: Create the AppHost project file and register it in the solution.
 
-- [ ] T001 Create `backend/WeatherAdvisor.AppHost/WeatherAdvisor.AppHost.csproj` using `Sdk="Aspire.AppHost.Sdk/13.1.3"`, `<OutputType>Exe</OutputType>`, `<TargetFramework>net10.0</TargetFramework>`, `<Nullable>enable</Nullable>`, `<ImplicitUsings>enable</ImplicitUsings>`, a newly generated GUID as `<UserSecretsId>`, a `<ProjectReference Include="..\WeatherAdvisor.Api\WeatherAdvisor.Api.csproj" />`, and `<PackageReference Include="Aspire.Hosting.JavaScript" Version="13.1.3" />`
-- [ ] T002 [P] Add `<Project Path="WeatherAdvisor.AppHost/WeatherAdvisor.AppHost.csproj" />` entry to `backend/WeatherAdvisor.slnx` alongside the existing Api and Tests project entries
+- [x] T001 Create `backend/WeatherAdvisor.AppHost/WeatherAdvisor.AppHost.csproj` using `Sdk="Aspire.AppHost.Sdk/13.1.3"`, `<OutputType>Exe</OutputType>`, `<TargetFramework>net10.0</TargetFramework>`, `<Nullable>enable</Nullable>`, `<ImplicitUsings>enable</ImplicitUsings>`, a newly generated GUID as `<UserSecretsId>`, a `<ProjectReference Include="..\WeatherAdvisor.Api\WeatherAdvisor.Api.csproj" />`, and `<PackageReference Include="Aspire.Hosting.JavaScript" Version="13.1.3" />`
+- [x] T002 [P] Add `<Project Path="WeatherAdvisor.AppHost/WeatherAdvisor.AppHost.csproj" />` entry to `backend/WeatherAdvisor.slnx` alongside the existing Api and Tests project entries
 
 ---
 
@@ -35,7 +35,7 @@
 
 **⚠️ CRITICAL**: Must be complete before User Story 1 can be validated end-to-end.
 
-- [ ] T003 Check `backend/WeatherAdvisor.Api/WeatherAdvisor.Api.csproj` for a `<UserSecretsId>` element; if absent, run `dotnet user-secrets init` from `backend/WeatherAdvisor.Api/` to generate and insert it (per orchestration contract: Aspire sets `ASPNETCORE_ENVIRONMENT=Development`, which causes ASP.NET Core to load user secrets only if `<UserSecretsId>` is present)
+- [x] T003 Check `backend/WeatherAdvisor.Api/WeatherAdvisor.Api.csproj` for a `<UserSecretsId>` element; if absent, run `dotnet user-secrets init` from `backend/WeatherAdvisor.Api/` to generate and insert it (per orchestration contract: Aspire sets `ASPNETCORE_ENVIRONMENT=Development`, which causes ASP.NET Core to load user secrets only if `<UserSecretsId>` is present)
 
 **Checkpoint**: Foundation ready — user story implementation can begin
 
@@ -49,7 +49,7 @@
 
 ### Implementation for User Story 1
 
-- [ ] T004 [US1] Create `backend/WeatherAdvisor.AppHost/Program.cs` with the complete orchestration entry point: `var builder = DistributedApplication.CreateBuilder(args);` → register API via `var api = builder.AddProject<Projects.WeatherAdvisor_Api>("weatheradvisor-api");` → register frontend via `builder.AddViteApp("frontend", "../frontend").WithReference(api).WithEnvironment("VITE_API_BASE_URL", api.GetEndpoint("http"));` → `builder.Build().Run();` — do NOT add `.WithHttpEndpoint()` to the ViteApp resource (it registers one automatically; adding another causes a duplicate endpoint error per research Decision 3)
+- [x] T004 [US1] Create `backend/WeatherAdvisor.AppHost/Program.cs` with the complete orchestration entry point: `var builder = DistributedApplication.CreateBuilder(args);` → register API via `var api = builder.AddProject<Projects.WeatherAdvisor_Api>("weatheradvisor-api");` → register frontend via `builder.AddViteApp("frontend", "../frontend").WithReference(api).WithEnvironment("VITE_API_BASE_URL", api.GetEndpoint("http"));` → `builder.Build().Run();` — do NOT add `.WithHttpEndpoint()` to the ViteApp resource (it registers one automatically; adding another causes a duplicate endpoint error per research Decision 3)
 
 **Checkpoint**: `aspire run --project backend/WeatherAdvisor.AppHost` starts both components — User Story 1 is fully functional and independently testable
 
@@ -63,7 +63,7 @@
 
 ### Implementation for User Story 2
 
-- [ ] T005 [US2] Update the CORS policy in `backend/WeatherAdvisor.Api/Program.cs`: replace the existing single-branch `WithOrigins("http://localhost:5173")` configuration with a conditional: add `if (builder.Environment.IsDevelopment()) { policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod(); }` and move the existing `WithOrigins("http://localhost:5173").AllowAnyHeader().AllowAnyMethod()` into an `else` branch — exact target state is documented in `specs/002-aspire-orchestration-discovery/plan.md` under "CORS update in WeatherAdvisor.Api/Program.cs (target state)"
+- [x] T005 [US2] Update the CORS policy in `backend/WeatherAdvisor.Api/Program.cs`: replace the existing single-branch `WithOrigins("http://localhost:5173")` configuration with a conditional: add `if (builder.Environment.IsDevelopment()) { policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod(); }` and move the existing `WithOrigins("http://localhost:5173").AllowAnyHeader().AllowAnyMethod()` into an `else` branch — exact target state is documented in `specs/002-aspire-orchestration-discovery/plan.md` under "CORS update in WeatherAdvisor.Api/Program.cs (target state)"
 
 **Checkpoint**: User Story 2 fully functional — browser submits requests to the `VITE_API_BASE_URL` dynamic URL and CORS no longer blocks responses; User Stories 1 and 2 are both independently testable
 
