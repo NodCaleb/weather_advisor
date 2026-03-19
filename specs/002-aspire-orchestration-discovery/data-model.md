@@ -50,7 +50,7 @@ Represents the runtime-discoverable endpoint metadata that enables one component
 
 **State transitions**:
 - `unallocated` → `allocated` (AppHost assigns dynamic port on startup)
-- `allocated` → `restarted` (component process restart; AppHost reassigns endpoint; env var re-injected on next spawn)
+- `allocated` → `restarted` (component process restart; endpoint URL is **unchanged** within the session — Aspire does not reassign the dynamic port; the resource is marked Restarting then returns to Running)
 - `allocated` → `unavailable` (component process exits unexpectedly; Aspire marks as Failed)
 
 ---
