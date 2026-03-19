@@ -5,6 +5,16 @@
 **Status**: Draft  
 **Input**: User description: "Add Aspire orchestrator to allow developer to start all components at once. Implement service discovery to allow components to communicate without need to specify URLs explicitly"
 
+## Clarifications
+
+### Session 2026-03-19
+
+- Q: Should the Vite/React frontend be included in the Aspire AppHost, or remain a manual/separate startup step? → A: Include frontend in AppHost via `AddNpmApp` (Vite dev server managed by Aspire)
+- Q: How should local developer secrets (e.g. API keys) be supplied to Aspire-managed components? → A: User Secrets (`dotnet user-secrets`) forwarded automatically by Aspire to the API resource
+- Q: How does the frontend resolve the backend API URL at runtime under Aspire? → A: Aspire injects backend URL as env var; Vite config maps it to `VITE_API_BASE_URL`
+- Q: Should Aspire assign ports dynamically or use fixed declared ports in the AppHost? → A: Dynamic port assignment by Aspire (no fixed ports declared in AppHost)
+- Q: Is CI/CD pipeline orchestration (e.g. Aspire test-host in CI) in scope for this feature? → A: Strictly local interactive developer use — CI/CD pipeline orchestration is out of scope
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Start Full App Stack in One Command (Priority: P1)
@@ -53,7 +63,7 @@ As a developer, I want a single place to see startup and runtime health of compo
 ### Edge Cases
 
 - A required component binary or dependency is missing at launch time.
-- Two components have conflicting local resource bindings during startup.
+- Two components have conflicting local resource bindings during startup. *(Resolved: Aspire uses dynamic port assignment by default — no fixed ports are declared in the AppHost — eliminating port conflicts between components.)*
 - A downstream component becomes unavailable after initial successful startup.
 - A component starts successfully but fails readiness checks.
 
@@ -62,25 +72,35 @@ As a developer, I want a single place to see startup and runtime health of compo
 ### Functional Requirements
 
 - **FR-001**: The system MUST provide a single developer-triggered workflow that starts all required application components for local development.
-- **FR-002**: The system MUST define which components are part of the local development topology and ensure each is included in the startup workflow.
+- **FR-002**: The system MUST define which components are part of the local development topology and ensure each is included in the startup workflow. The topology consists of exactly two components: the **WeatherAdvisor.Api** (.NET backend) and the **frontend** (Vite/React dev server), both managed within the Aspire `AppHost` — the frontend via `AddNpmApp`.
 - **FR-003**: The system MUST expose clear startup status per component, including success and failure outcomes.
-- **FR-004**: The system MUST enable automatic internal service discovery so components can communicate without manually configured inter-service URLs.
+- **FR-004**: The system MUST enable automatic internal service discovery so components can communicate without manually configured inter-service URLs. Specifically, Aspire MUST inject the backend API's runtime URL into the frontend npm resource as an environment variable (following the Aspire `services__{name}__{scheme}__{index}` convention); the Vite configuration MUST expose this as `VITE_API_BASE_URL` so the frontend TypeScript client can consume it without any hardcoded `localhost` port.
 - **FR-005**: The system MUST allow dependent components to continue resolving target components after target restarts or endpoint changes during local development sessions.
 - **FR-006**: The system MUST surface actionable diagnostic information when startup fails or inter-component communication fails.
 - **FR-007**: Developers MUST be able to run existing local workflows for individual components when full-stack orchestration is not needed.
-- **FR-008**: The system MUST document the one-command startup workflow and expected local prerequisites.
+- **FR-008**: The system MUST document the one-command startup workflow and expected local prerequisites, including required `dotnet user-secrets` entries that must be populated before first launch.
+- **FR-009**: The system MUST NOT require any secret values to be committed to source control; all runtime secrets for local development MUST be supplied via .NET User Secrets (`dotnet user-secrets`), which Aspire forwards automatically to the API resource.
 
 ### Key Entities *(include if feature involves data)*
 
 - **Component Definition**: A locally runnable application unit, including identifying name, startup command reference, dependency relationships, and health state.
-- **Service Registration**: Runtime-discoverable identity and endpoint metadata that allows one component to locate another component without static URLs.
+- **Service Registration**: Runtime-discoverable identity and endpoint metadata that allows one component to locate another component without static URLs. For the frontend-to-backend path, this is realised by Aspire injecting the backend base URL as an environment variable into the Vite dev-server process, mapped to `VITE_API_BASE_URL`.
 - **Orchestration Session**: A single developer-initiated run context that tracks participating components, startup sequence, current state, and diagnostics.
 
 ### Assumptions
 
 - The feature applies to local development environments used by project contributors.
+- The orchestrated topology includes the WeatherAdvisor.Api backend and the Vite/React frontend; the frontend dev server is managed by Aspire via `AddNpmApp`.
+- Local developer secrets (e.g. Open-Meteo API key) are managed via .NET User Secrets scoped to `WeatherAdvisor.Api`; Aspire forwards these automatically — no secrets are committed to source control.
+- Aspire assigns all component ports dynamically; no fixed ports are declared in the AppHost.
 - Existing application components remain independently runnable.
 - Local prerequisites (runtime and SDK requirements) are already managed by repository setup documentation.
+
+### Out of Scope
+
+- CI/CD pipeline orchestration: using Aspire's test host or `dotnet aspire run` in automated pipelines is explicitly out of scope for this feature.
+- Production deployment or cloud hosting configuration.
+- Monitoring, alerting, or observability tooling beyond Aspire's local dashboard.
 
 ## Success Criteria *(mandatory)*
 
