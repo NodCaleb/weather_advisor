@@ -9,7 +9,7 @@ Weather Advisor lets users:
 - Select an outdoor activity (Running, Cycling, Picnic, Walking)
 - Receive a suitability recommendation (Suitable / Caution / Not Recommended) with a plain-language explanation
 
-The entire application was designed and built using Spec-Kit's structured workflow: clarification → specification → data model → implementation plan → tasks → code.
+The entire application was designed and built using Spec-Kit's structured workflow: clarification → specification → data model → implementation plan → tasks → code. For a step-by-step account of how it was done, see [HOW_I_BUILT_THIS.md](HOW_I_BUILT_THIS.md).
 
 **Stack**: React (TypeScript + Vite) frontend · .NET 10 Web API backend · [Open-Meteo](https://open-meteo.com/) (free, no API key required)
 
